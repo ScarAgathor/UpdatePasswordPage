@@ -62,14 +62,12 @@
 
         if (res.ok) {
           console.log('Password updated!');
-          alert('Your password has been successfully updated.');
+          console.log(result)
         } else {
           console.error(result.error);
-          alert('Error updating password');
         }
       } catch (err) {
         console.error('Fetch error:', err);
-        alert('Unexpected error occurred');
       }
     });
   });
