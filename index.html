@@ -35,37 +35,49 @@
 
       // Get token from URL hash
       const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      // const token = hashParams.get('token_hash');
       const access_token = hashParams.get('access_token');
       const refresh_token = hashParams.get('refresh_token');
+
+
 
       if (!access_token || !refresh_token) {
         alert("Missing auth tokens");
         return;
       }
 
-      if (access_token && refresh_token) {
-        supabase.auth.setSession({ access_token, refresh_token }).then(({ data, error }) => {
-          if (error) console.error('Error setting session:', error);
-          else console.log('Session set:', data);
-        });
+      console.log('Hash:', window.location.hash);
+      console.log('Access Token:', access_token);
+      console.log('Refresh Token:', refresh_token);
+
+      const { data, error } = await supabase.auth.setSession({ access_token, refresh_token });
+      if (error) {
+        console.error('Error setting session:', error);
+        alert('Failed to set session');
+        return;
       }
 
-      const res = await fetch('https://vjupksldndgsditqhirh.supabase.co/functions/v1/update-password', {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${access_token}`
+      try {
+        const res = await fetch('https://vjupksldndgsditqhirh.supabase.co/functions/v1/update-password', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${access_token}`
           },
-        body: JSON.stringify({ newPassword }),
-      })
+          body: JSON.stringify({ newPassword }),
+        });
 
-      const result = await res.json()
+        const result = await res.json();
 
-      if (res.ok) {
-        console.log('password updated!')
-      } else {
-        console.error(result.error)
+        if (res.ok) {
+          console.log('Password updated!');
+          alert('Your password has been successfully updated.');
+        } else {
+          console.error(result.error);
+          alert('Error updating password');
+        }
+      } catch (err) {
+        console.error('Fetch error:', err);
+        alert('Unexpected error occurred');
       }
     });
   </script>
