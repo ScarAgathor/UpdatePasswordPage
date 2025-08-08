@@ -30,7 +30,6 @@
 
     if (!access_token || !refresh_token) {
       alert("Missing auth tokens");
-      return;
     }
 
     const { data, error } = await supabase.auth.setSession({ access_token, refresh_token });
