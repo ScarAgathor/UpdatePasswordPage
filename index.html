@@ -14,6 +14,15 @@
   <p id="message"></p>
 
   <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const supabase = createClient('https://vjupksldndgsditqhirh.supabase.co', 
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqdXBrc2xkbmRnc2RpdHFoaXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyOTE5ODUsImV4cCI6MjA2NTg2Nzk4NX0.DM6osavzEdtvsnX5VOhbLoI9cr1OsN6HD_vB_fVPSVs');
+
+    // Parse tokens from URL hash
+    // const { access_token, refresh_token } = Object.fromEntries(new URLSearchParams(location.hash.slice(1)));
+
+    // Set the session so the user is logged in
 
 
 
@@ -35,6 +44,13 @@
       if (!access_token || !refresh_token) {
         alert("Missing auth tokens");
         return;
+      }
+
+      if (access_token && refresh_token) {
+        supabase.auth.setSession({ access_token, refresh_token }).then(({ data, error }) => {
+          if (error) console.error('Error setting session:', error);
+          else console.log('Session set:', data);
+        });
       }
 
       const res = await fetch('https://vjupksldndgsditqhirh.supabase.co/functions/v1/update-password', {
