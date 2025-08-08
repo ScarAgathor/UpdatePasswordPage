@@ -14,12 +14,12 @@
   <p id="message"></p>
 
  <script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+  // import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  const supabase = createClient(
-    'https://vjupksldndgsditqhirh.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqdXBrc2xkbmRnc2RpdHFoaXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyOTE5ODUsImV4cCI6MjA2NTg2Nzk4NX0.DM6osavzEdtvsnX5VOhbLoI9cr1OsN6HD_vB_fVPSVs'
-  );
+  // const supabase = createClient(
+  //   'https://vjupksldndgsditqhirh.supabase.co',
+  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqdXBrc2xkbmRnc2RpdHFoaXJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyOTE5ODUsImV4cCI6MjA2NTg2Nzk4NX0.DM6osavzEdtvsnX5VOhbLoI9cr1OsN6HD_vB_fVPSVs'
+  // );
 
   window.addEventListener("DOMContentLoaded", async () => {
     const hashParams = new URLSearchParams(window.location.hash.substring(1));
@@ -31,15 +31,15 @@
       return;
     }
 
-    // Set the Supabase session (wait for it)
-    const { data, error } = await supabase.auth.setSession({ access_token, refresh_token });
-    if (error) {
-      console.error('Error setting session:', error);
-      alert('Failed to set session');
-      return;
-    }
+    // // Set the Supabase session (wait for it)
+    // const { data, error } = await supabase.auth.setSession({ access_token, refresh_token });
+    // if (error) {
+    //   console.error('Error setting session:', error);
+    //   alert('Failed to set session');
+    //   return;
+    // }
 
-    console.log('Session successfully set:', data);
+    // console.log('Session successfully set:', data);
 
     // Register form submit listener
     const form = document.getElementById("reset-form");
@@ -62,7 +62,6 @@
 
         if (res.ok) {
           console.log('Password updated!');
-          console.log(result)
         } else {
           console.error(result.error);
         }
