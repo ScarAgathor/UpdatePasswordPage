@@ -25,12 +25,12 @@
       const newPassword = document.getElementById("new-password").value;
 
       // Get token from URL hash
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    const token = hashParams.get("token_hash");
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const token = hashParams.get('token_hash');
       const access_token = hashParams.get('access_token');
       const refresh_token = hashParams.get('refresh_token');
 
-      console.log(access_token)
+      console.log(token)
       console.log("re:", refresh_token)
 
       if (!access_token || !refresh_token) {
@@ -42,7 +42,7 @@
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          // "Authorization": `Bearer ${access_token}`
+          "Authorization": `Bearer ${access_token}`
           },
         body: JSON.stringify({ newPassword }),
       })
