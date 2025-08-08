@@ -24,7 +24,21 @@
 
     // Set the session so the user is logged in
 
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const access_token = hashParams.get('access_token');
+    const refresh_token = hashParams.get('refresh_token');
 
+    if (!access_token || !refresh_token) {
+      alert("Missing auth tokens");
+      return;
+    }
+
+    const { data, error } = await supabase.auth.setSession({ access_token, refresh_token });
+    if (error) {
+      console.error('Error setting session:', error);
+      alert('Failed to set session');
+      return;
+    }
 
     const form = document.getElementById("reset-form");
     const message = document.getElementById("message");
@@ -33,28 +47,13 @@
       e.preventDefault();
       const newPassword = document.getElementById("new-password").value;
 
-      // Get token from URL hash
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      const access_token = hashParams.get('access_token');
-      const refresh_token = hashParams.get('refresh_token');
 
 
+      console.log("Full URL:", window.location.href);
+      console.log("Hash:", window.location.hash);
 
-      if (!access_token || !refresh_token) {
-        alert("Missing auth tokens");
-        return;
-      }
-
-      console.log('Hash:', window.location.hash);
-      console.log('Access Token:', access_token);
-      console.log('Refresh Token:', refresh_token);
-
-      const { data, error } = await supabase.auth.setSession({ access_token, refresh_token });
-      if (error) {
-        console.error('Error setting session:', error);
-        alert('Failed to set session');
-        return;
-      }
+      console.log("Access Token:", hashParams.get('access_token'));
+      console.log("Refresh Token:", hashParams.get('refresh_token'));
 
       try {
         const res = await fetch('https://vjupksldndgsditqhirh.supabase.co/functions/v1/update-password', {
